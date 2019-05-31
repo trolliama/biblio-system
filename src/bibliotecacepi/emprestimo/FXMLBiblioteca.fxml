@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="366.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bibliotecacepi.FXMLBibliotecaController">
+<VBox prefHeight="366.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bibliotecacepi.emprestimo.FXMLBibliotecaController">
    <children>
       <MenuBar>
         <menus>
@@ -21,7 +21,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Alunos">
             <items>
-              <MenuItem mnemonicParsing="false" text="Cadastrar Aluno" />
+              <MenuItem mnemonicParsing="false" onAction="#openCadastroAlunos" text="Cadastrar Aluno" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" text="Ver lista" />
             </items>
@@ -40,31 +40,67 @@
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="55.0" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="96.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="84.0" minHeight="45.0" prefHeight="56.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="titleBookTextField" onKeyPressed="#searchTitleBook" prefHeight="25.0" prefWidth="406.0" GridPane.rowIndex="2">
+            <TextField fx:id="titleBookTextField" prefHeight="25.0" prefWidth="406.0" GridPane.rowIndex="2">
                <GridPane.margin>
-                  <Insets bottom="10.0" left="60.0" right="60.0" top="10.0" />
+                  <Insets bottom="10.0" left="60.0" right="140.0" top="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="nameStudentTextField" GridPane.rowIndex="4">
+            <TextField fx:id="nameStudentTextField" prefHeight="25.0" prefWidth="475.0" GridPane.rowIndex="4">
                <GridPane.margin>
-                  <Insets left="60.0" right="60.0" />
+                  <Insets left="60.0" right="400.0" />
                </GridPane.margin>
             </TextField>
             <Label text="Título do Livro" GridPane.rowIndex="1" />
-            <Label text="Nome do aluno" GridPane.rowIndex="3" />
+            <Label text="Nome do aluno" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="170.0" />
+               </GridPane.margin></Label>
             <Button fx:id="concludedButton" mnemonicParsing="false" onAction="#concludedButtonAction" prefHeight="34.0" prefWidth="393.0" text="Concluido" GridPane.rowIndex="5" />
-            <Label text="Emprestimo">
+            <Label text="Empréstimo">
                <font>
                   <Font size="23.0" />
                </font>
+            </Label>
+            <Label text="Sala" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets right="80.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="salaStudentTextField" prefHeight="25.0" prefWidth="67.0" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets right="60.0" />
+               </GridPane.margin>
+            </ComboBox>
+            <Label text="Volume" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="75.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="volumeTextField" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="620.0" right="60.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="sobrenomeStudentTextField" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="360.0" right="140.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label text="Sobrenome do aluno" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="240.0" />
+               </GridPane.margin>
             </Label>
          </children>
       </GridPane>

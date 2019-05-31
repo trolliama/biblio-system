@@ -10,8 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import connections.ConnectionFactory;
-import java.sql.Connection;
 /**
  *
  * @author caio

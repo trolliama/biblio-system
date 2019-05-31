@@ -19,12 +19,12 @@ import java.util.List;
 public class EditoraDAO {
     private Connection con;
     
-    public EditoraDAO(){
+    public EditoraDAO() throws SQLException {
         this.con = new ConnectionFactory().getConnection();
     }
     
     public void adiciona(Editora editora) throws SQLException{
-        String sql = "insert into Editora (editora) values (?)";
+        String sql = "insert into editora (editora) values (?)";
         
         try {
             PreparedStatement stmt = this.con.prepareStatement(sql);
@@ -42,7 +42,7 @@ public class EditoraDAO {
     }
     
     public List listaSearch(String initials) throws SQLException{
-        String sql = "SELECT editora FROM Editora WHERE editora LIKE ?%";
+        String sql = "SELECT editora FROM editora WHERE editora LIKE ?%";
         List<Editora> editoras = new ArrayList<Editora>();
         
         try{
@@ -81,13 +81,32 @@ public class EditoraDAO {
         
         ResultSet rs = stmt.executeQuery();
         
-        rs.next();
-        rs.getString("editora");
-        
-        if (rs.wasNull()){
+        if(rs.next() == false){
             bool = false;
         }
+;
         
         return bool;
+    }
+    
+    public Integer getId(Editora editora) throws SQLException{
+        try {
+            String sql = "SELECT id FROM editora WHERE editora=?";
+
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+            stmt.setString(1, editora.getEditora());
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            rs.next();
+            Integer id = rs.getInt("id");
+            
+            return id;
+            
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally{
+            this.con.close();
+        }
     }
 }

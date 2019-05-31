@@ -12,7 +12,6 @@ package bibliotecacepi;
 public class Aluno {
     private String nome;
     private String sobrenome;
-    private Integer sala_id;
 
     /**
      * @return the nome
@@ -40,20 +39,6 @@ public class Aluno {
      */
     public void setSobrenome(String sobrenome) {
         this.sobrenome = sobrenome;
-    }
-
-    /**
-     * @return the sala_id
-     */
-    public Integer getSala_id() {
-        return sala_id;
-    }
-
-    /**
-     * @param sala_id the sala_id to set
-     */
-    public void setSala_id(Integer sala_id) {
-        this.sala_id = sala_id;
     }
     
     

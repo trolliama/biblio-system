@@ -16,6 +16,8 @@ import javafx.stage.Stage;
  * @author caio
  */
 public class CadastroLivros extends Application{
+    
+    @Override
     public void start(Stage stage) throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("FXMLCadastroLivros.fxml"));
         
@@ -25,7 +27,7 @@ public class CadastroLivros extends Application{
         stage.show();
     }
     
-    public void main(String[] args){
-        launch();
+    public static void main(String[] args){
+        launch(args);
     }
 }

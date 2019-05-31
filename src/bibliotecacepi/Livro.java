@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 package bibliotecacepi;
+import connections.AutorDAO;
+import connections.EditoraDAO;
+import java.sql.SQLException;
+
 
 /**
  *
@@ -14,10 +18,6 @@ public class Livro {
     private String volume;
     private Integer autor_id;
     private Integer editora_id;
-    
-//    public String getTitulo(){
-//        return Titulo;
-//    }
 
     /**
      * @return the titulo
@@ -57,8 +57,8 @@ public class Livro {
     /**
      * @param autor_id the autor_id to set
      */
-    public void setAutor_id(Integer autor_id) {
-        this.autor_id = autor_id;
+    public void setAutor_id(Autor autor) throws SQLException {
+        this.autor_id = new AutorDAO().getId(autor);
     }
 
     /**
@@ -71,8 +71,8 @@ public class Livro {
     /**
      * @param editora_id the editora_id to set
      */
-    public void setEditora_id(Integer editora_id) {
-        this.editora_id = editora_id;
+    public void setEditora_id(Editora editora) throws SQLException {
+        this.editora_id = new EditoraDAO().getId(editora);
     }
     
     

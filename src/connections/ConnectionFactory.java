@@ -14,10 +14,11 @@ import java.sql.SQLException;
  * @author caio
  */
 public class ConnectionFactory {
-    public Connection getConnection(){
+
+    public Connection getConnection() throws SQLException {
         try{
             return DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/biblioteca", "postgres", "postgres");
+                "jdbc:mysql://localhost:3306/biblioteca?useTimezone=true&serverTimezone=UTC", "biblio", "password");
         }catch(SQLException e){
             throw new RuntimeException(e);
         }
