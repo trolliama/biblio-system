@@ -1423,7 +1423,7 @@
     </target>
     
 
-    <!-- Main Deployment Target -->
+    <!-- CadastroSalas Deployment Target -->
 
     <!-- Note: target "jfx-deployment" is referenced from NB 7.1+ build-impl.xml -->
     <target name="jfx-deployment" depends="-check-jfx-deployment-launch,-do-jfx-deployment-script,-do-jfx-deployment-noscript" if="jfx-deployment-available"/>

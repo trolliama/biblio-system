@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bibliotecacepi.Livros.FXMLListaLivros">
+   <children>
+      <TableView fx:id="table" prefHeight="400.0" prefWidth="603.0">
+        <columns>
+          <TableColumn fx:id="columnTitulo" prefWidth="182.0" text="Título" />
+          <TableColumn fx:id="columnAutor" prefWidth="179.0" text="Autor" />
+            <TableColumn fx:id="columnEditora" prefWidth="168.0" text="Editora" />
+            <TableColumn fx:id="columnVolume" prefWidth="73.0" text="Volume" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

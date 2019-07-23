@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlunoDAO {
 
@@ -37,7 +39,7 @@ public class AlunoDAO {
 
     public boolean search(String nome, String sobrenome) throws SQLException {
         boolean founded = true;
-        String sql = "select titulo from aluno where nome=? and sobrenome=?";
+        String sql = "select nome from aluno where nome=? and sobrenome=?";
 
         try {
             PreparedStatement stmt = this.con.prepareStatement(sql);
@@ -60,5 +62,53 @@ public class AlunoDAO {
         }
 
         return founded;
+    }
+
+    public int getAlunoId(String nome, String sobrenome) throws SQLException {
+        String sql = "select id from aluno where nome=? and sobrenome=?";
+        int id = 0;
+        try{
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+
+            stmt.setString(1, nome);
+            stmt.setString(2, sobrenome);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                id = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            this.con.close();
+            return id;
+        }
+    }
+
+    public List<Aluno> getAlunos() throws SQLException {
+        String sql = "select nome, sobrenome from aluno";
+        List<Aluno> data = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = this.con.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                Aluno aluno = new Aluno();
+
+                aluno.setNome(rs.getString("nome"));
+                aluno.setSobrenome(rs.getString("sobrenome"));
+
+                data.add(aluno);
+            }
+
+        }catch(SQLException e){
+            new RuntimeException(e);
+        } finally {
+            this.con.close();
+            return data;
+        }
     }
 }

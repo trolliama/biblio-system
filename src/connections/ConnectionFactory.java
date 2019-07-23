@@ -18,7 +18,7 @@ public class ConnectionFactory {
     public Connection getConnection() throws SQLException {
         try{
             return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/biblioteca?useTimezone=true&serverTimezone=UTC", "biblio", "password");
+                "jdbc:mysql://localhost:3306/biblioteca?useTimezone=true&serverTimezone=UTC", "root", "");
         }catch(SQLException e){
             throw new RuntimeException(e);
         }

@@ -16,12 +16,24 @@ import java.sql.SQLException;
 public class Livro {
     private String titulo;
     private String volume;
+    private Autor autor;
+    private Editora editora;
     private Integer autor_id;
     private Integer editora_id;
 
     /**
      * @return the titulo
      */
+
+    public Livro(String titulo, String volume, Autor autor, Editora editora) throws SQLException {
+        this.titulo = titulo;
+        this.volume = volume;
+        this.autor = autor;
+        this.editora = editora;
+
+        setAutor_id();
+        setEditora_id();
+    }
     public String getTitulo() {
         return titulo;
     }
@@ -55,9 +67,8 @@ public class Livro {
     }
 
     /**
-     * @param autor_id the autor_id to set
      */
-    public void setAutor_id(Autor autor) throws SQLException {
+    public void setAutor_id() throws SQLException {
         this.autor_id = new AutorDAO().getId(autor);
     }
 
@@ -69,11 +80,25 @@ public class Livro {
     }
 
     /**
-     * @param editora_id the editora_id to set
      */
-    public void setEditora_id(Editora editora) throws SQLException {
+    public void setEditora_id() throws SQLException {
         this.editora_id = new EditoraDAO().getId(editora);
     }
-    
-    
+
+
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
+
+    public Editora getEditora() {
+        return editora;
+    }
+
+    public void setEditora(Editora editora) {
+        this.editora = editora;
+    }
 }

@@ -11,19 +11,25 @@ import java.text.Normalizer;
 import java.util.ResourceBundle;
 
 import bibliotecacepi.Aluno;
+import bibliotecacepi.Livros.FXMLCadastroLivrosController;
 import connections.AlunoDAO;
+import connections.LivroDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
+ * FXML FXMLCadastroSalaController class
  *
  * @author caio
  */
@@ -58,10 +64,31 @@ public class FXMLCadastroAlunosController implements Initializable {
             aluno.setNome(nome);
             aluno.setSobrenome(sobrenome);
 
+            if (new AlunoDAO().search(nome, sobrenome)) {
+                Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+
+                dialog.setTitle("Aluno já cadastrado");
+                dialog.setHeaderText("Aluno cadastrado");
+                dialog.setContentText("O aluno já está cadastrado. Deseja cadastrar mesmo assim?");
+
+                dialog.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        try {
+                            new AlunoDAO().adicionaAluno(aluno);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(FXMLCadastroLivrosController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+
+                return;
+            }
+
             new AlunoDAO().adicionaAluno(aluno);
 
             Stage stage = (Stage) cadastroButton.getScene().getWindow();
             stage.close();
+
         } else{
             callDialog();
         }

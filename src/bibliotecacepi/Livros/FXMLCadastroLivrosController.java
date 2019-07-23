@@ -28,7 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
+ * FXML FXMLCadastroSalaController class
  *
  * @author caio
  */
@@ -85,14 +85,27 @@ public class FXMLCadastroLivrosController implements Initializable {
         titulo = tituloTextField.getText();
         volume = volumeTextField.getText();
 
-        Livro livro = new Livro();
+        Livro livro = new Livro(titulo, volume, autor, editora);
 
-        livro.setTitulo(titulo);
-        livro.setVolume(volume);
-        livro.setAutor_id(autor);
-        livro.setEditora_id(editora);
-        
-        
+        if (new LivroDAO().search(titulo, Integer.parseInt(volume))) {
+            Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+
+            dialog.setTitle("Livro já cadastrado");
+            dialog.setHeaderText("Livro cadastrado");
+            dialog.setContentText("O livro já está cadastrado. Deseja cadastrar mesmo assim?");
+
+            dialog.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    try {
+                        new LivroDAO().adiciona(livro);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(FXMLCadastroLivrosController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+
+            return;
+        }
         new LivroDAO().adiciona(livro);
 
         Stage stage = (Stage) cadastroButton.getScene().getWindow();
@@ -142,7 +155,6 @@ public class FXMLCadastroLivrosController implements Initializable {
             new EditoraDAO().adiciona(editora);
         }
     }
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
