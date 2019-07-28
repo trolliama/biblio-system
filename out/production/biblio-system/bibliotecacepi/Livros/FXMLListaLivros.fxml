@@ -6,15 +6,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bibliotecacepi.Livros.FXMLListaLivros">
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bibliotecacepi.Livros.FXMLListaLivrosController">
    <children>
-      <TableView fx:id="table" prefHeight="400.0" prefWidth="603.0">
+      <TableView fx:id="table" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0">
         <columns>
-          <TableColumn fx:id="columnTitulo" prefWidth="182.0" text="Título" />
-          <TableColumn fx:id="columnAutor" prefWidth="179.0" text="Autor" />
-            <TableColumn fx:id="columnEditora" prefWidth="168.0" text="Editora" />
-            <TableColumn fx:id="columnVolume" prefWidth="73.0" text="Volume" />
+          <TableColumn fx:id="columnTitulo" prefWidth="416.0" text="Título" />
+          <TableColumn fx:id="columnAutor" minWidth="0.0" prefWidth="388.0" text="Autor" />
+            <TableColumn fx:id="columnEditora" prefWidth="116.0" text="Editora" />
+            <TableColumn fx:id="columnVolume" minWidth="9.0" prefWidth="77.0" text="Volume" />
         </columns>
       </TableView>
    </children>

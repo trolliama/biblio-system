@@ -70,7 +70,7 @@ public class FXMLCadastroLivrosController implements Initializable {
             
             dialog.setTitle("Informação dos campos");
             dialog.setHeaderText("Campos incorretos");
-            dialog.setContentText("Campos não foram preenchidos, ou campo volume contém letras");
+            dialog.setContentText("Campos não foram preenchidos\nCampo volume contém letras");
             dialog.showAndWait();
             
             return;
@@ -85,14 +85,14 @@ public class FXMLCadastroLivrosController implements Initializable {
         titulo = tituloTextField.getText();
         volume = volumeTextField.getText();
 
-        Livro livro = new Livro(titulo, volume, autor, editora);
+        Livro livro = new Livro(0,titulo, volume, autor, editora);
 
         if (new LivroDAO().search(titulo, Integer.parseInt(volume))) {
             Alert dialog = new Alert(Alert.AlertType.INFORMATION);
 
             dialog.setTitle("Livro já cadastrado");
             dialog.setHeaderText("Livro cadastrado");
-            dialog.setContentText("O livro já está cadastrado. Deseja cadastrar mesmo assim?");
+            dialog.setContentText("O livro já está cadastrado.\nDeseja cadastrar mesmo assim?");
 
             dialog.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
@@ -133,18 +133,6 @@ public class FXMLCadastroLivrosController implements Initializable {
     }
     public void verificaAutor() throws SQLException{
         if(new AutorDAO().search(autor) == false){
-//            Alert dialog = new Alert(Alert.AlertType.ERROR);
-//
-//            dialog.showAndWait().ifPresent(response -> {
-//                if (response == ButtonType.OK) {
-//                    try {
-//                        new AutorDAO().adiciona(autor);
-//                    } catch (SQLException ex) {
-//                        System.out.println("tatata tatata he o barulho que ela faz quando começa a quicar!!");
-//                        Logger.getLogger(FXMLCadastroLivrosController.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//            });
             new AutorDAO().adiciona(autor);
            
         }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bibliotecacepi.Salas.FXMLListaSalasController">
+   <children>
+      <TableView fx:id="table" layoutX="-1.0" prefHeight="200.0" prefWidth="400.0">
+        <columns>
+          <TableColumn fx:id="columnSala" prefWidth="399.0" text="Salas" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

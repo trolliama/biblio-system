@@ -55,9 +55,6 @@ public class FXMLCadastroAlunosController implements Initializable {
         nome = nomeTextField.getText();
         sobrenome = sobrenomeTextField.getText();
 
-        System.out.println(nome.length());
-        System.out.println(sobrenome.length());
-
         if(verificaCampos()){
             Aluno aluno = new Aluno();
 
@@ -69,7 +66,7 @@ public class FXMLCadastroAlunosController implements Initializable {
 
                 dialog.setTitle("Aluno já cadastrado");
                 dialog.setHeaderText("Aluno cadastrado");
-                dialog.setContentText("O aluno já está cadastrado. Deseja cadastrar mesmo assim?");
+                dialog.setContentText("O aluno já está cadastrado. \nDeseja cadastrar mesmo assim?");
 
                 dialog.showAndWait().ifPresent(response -> {
                     if (response == ButtonType.OK) {
@@ -119,7 +116,7 @@ public class FXMLCadastroAlunosController implements Initializable {
         
         dialog.setTitle("Informação dos campos");
         dialog.setHeaderText("Campos incorretos");
-        dialog.setContentText("Campos não foram preenchidos, contém símbolos ou contém números");
+        dialog.setContentText("Campos não foram preenchidos, \ncontém símbolos ou contém números");
         dialog.showAndWait();
     }
 

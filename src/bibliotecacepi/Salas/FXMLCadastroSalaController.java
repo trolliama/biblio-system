@@ -33,7 +33,7 @@ public class FXMLCadastroSalaController implements Initializable {
 
             dialog.setTitle("Sala já cadastrado");
             dialog.setHeaderText("Sala cadastrado");
-            dialog.setContentText("A sala já está cadastrado. Deseja cadastrar mesmo assim?");
+            dialog.setContentText("A sala já está cadastrado.\n Deseja cadastrar mesmo assim?");
 
             dialog.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {

@@ -1,11 +1,8 @@
 package connections;
 
-import com.mysql.cj.protocol.Resultset;
+import bibliotecacepi.Sala;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +30,9 @@ public class SalaDAO {
         }
     }
 
-    public List<String> getSalas() throws SQLException {
+    public List<Sala> getSalas() throws SQLException {
         String sql = "select sala from sala";
-        List<String> salas = new ArrayList<String>();
+        List<Sala> salas = new ArrayList<>();
 
         try {
             PreparedStatement stmt = this.con.prepareStatement(sql);
@@ -43,7 +40,9 @@ public class SalaDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                salas.add(rs.getString("sala"));
+                Sala sala = new Sala();
+                sala.setSala(rs.getString("sala"));
+                salas.add(sala);
             }
 
             stmt.close();
@@ -101,5 +100,46 @@ public class SalaDAO {
         }
 
         return founded;
+    }
+
+    public void editSala(int id, String new_value) throws SQLException {
+        String sql = "update sala set sala=? where id=?";
+
+        try {
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+
+            stmt.setString(1, new_value);
+            stmt.setInt(2, id);
+
+            stmt.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+
+        }finally {
+            this.con.close();
+        }
+    }
+
+    public boolean deleteSala(int id) throws SQLException {
+        String sql = "delete from sala where id=?";
+        boolean fk_error = false;
+
+        try {
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            try {
+                stmt.executeUpdate();
+            } catch(SQLIntegrityConstraintViolationException e){
+                fk_error = true;
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }finally {
+            this.con.close();
+            return fk_error;
+        }
     }
 }

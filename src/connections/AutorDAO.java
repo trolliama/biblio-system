@@ -5,13 +5,10 @@
  */
 package connections;
 
-import java.sql.Connection;
+import java.sql.*;
+
 import bibliotecacepi.Autor;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 /**
  *
  * @author caio
@@ -41,37 +38,6 @@ public class AutorDAO {
             this.con.close();
         }
     }
-    
-//    public List listaSearch(String initials) throws SQLException{
-//        String sql = "SELECT nome FROM autor WHERE nome LIKE ?%";
-//        List<Autor> autores = new ArrayList<Autor>();
-//
-//        try{
-//            PreparedStatement stmt = this.con.prepareStatement(sql);
-//
-//            stmt.setString(1, initials);
-//
-//            ResultSet rs = stmt.executeQuery();
-//
-//            while(rs.next()){
-//                String nome = rs.getString("nome");
-//
-//                Autor autor = new Autor();
-//                autor.setNome(nome);
-//
-//                autores.add(autor);
-//            }
-//
-//            rs.close();
-//            stmt.close();
-//
-//            return autores;
-//        } catch(SQLException e){
-//            throw new RuntimeException(e);
-//        } finally {
-//            this.con.close();
-//        }
-//    }
     
     public boolean search(Autor autor) throws SQLException{
         Boolean bool = true;
@@ -105,7 +71,9 @@ public class AutorDAO {
             
             ResultSet rs = stmt.executeQuery();
             
-            rs.next();
+            if(!rs.next()){
+                return 0;
+            }
             Integer id = rs.getInt("id");
             
             return id;
@@ -114,6 +82,54 @@ public class AutorDAO {
             throw new RuntimeException(e);
         } finally{
             this.con.close();
+        }
+    }
+
+    public Integer getId(String name_autor) throws SQLException{
+        Autor autor = new Autor();
+        autor.setNome(name_autor);
+
+        return getId(autor);
+    }
+
+//    public void editAutor(int id, String new_value) throws SQLException {
+//        String sql = "update autor set nome=? where id=?";
+//
+//        try {
+//            PreparedStatement stmt = this.con.prepareStatement(sql);
+//
+//            stmt.setString(1, new_value);
+//            stmt.setInt(2, id);
+//
+//            stmt.executeUpdate();
+//
+//        }catch (SQLException e){
+//            throw new RuntimeException(e);
+//
+//        }finally {
+//            this.con.close();
+//        }
+//    }
+
+    public boolean delete(int id) throws SQLException {
+        String sql = "delete from autor where id=?";
+        boolean fk_error = false;
+
+        try {
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            try {
+                stmt.executeUpdate();
+            } catch(SQLIntegrityConstraintViolationException e){
+                fk_error = true;
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }finally {
+            this.con.close();
+            return fk_error;
         }
     }
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bibliotecacepi.emprestimo.FXMLListaEmprestimoController">
+   <children>
+      <TableView fx:id="table" layoutY="3.0" prefHeight="594.0" prefWidth="1000.0">
+        <columns>
+          <TableColumn fx:id="columnEmprestado" prefWidth="120.0" text="Emprestado" />
+          <TableColumn fx:id="columnLivro" prefWidth="296.0" text="Livro" />
+            <TableColumn fx:id="columnVolume" prefWidth="66.0" text="Volume" />
+            <TableColumn fx:id="columnAluno" prefWidth="281.0" text="Aluno" />
+            <TableColumn fx:id="columnSala" prefWidth="123.0" text="Sala" />
+            <TableColumn fx:id="columnDevolver" prefWidth="113.0" text="Devolver" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

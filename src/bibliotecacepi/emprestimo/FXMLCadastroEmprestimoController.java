@@ -5,10 +5,8 @@
  */
 package bibliotecacepi.emprestimo;
 
-import bibliotecacepi.Alunos.CadastroAlunos;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,30 +14,32 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import bibliotecacepi.Alunos.CadastroAlunos;
 import bibliotecacepi.Alunos.ListaAlunos;
 import bibliotecacepi.Livros.ListaLivros;
+import bibliotecacepi.Sala;
 import bibliotecacepi.Salas.CadastroSalas;
+import bibliotecacepi.Salas.ListaSalas;
+
 import connections.AlunoDAO;
 import connections.EmprestimoDAO;
 import connections.LivroDAO;
 import connections.SalaDAO;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import bibliotecacepi.Livros.CadastroLivros;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 
 /**
  *
  * @author caio
  */
-public class FXMLBibliotecaController implements Initializable {
+public class FXMLCadastroEmprestimoController implements Initializable {
 
     ObservableList<String> salas = FXCollections.observableArrayList();
 
@@ -87,6 +87,19 @@ public class FXMLBibliotecaController implements Initializable {
         ListaLivros window = new ListaLivros();
         window.start(new Stage());
     }
+
+    @FXML
+    private void openListaSalas(ActionEvent event) throws IOException{
+        ListaSalas window = new ListaSalas();
+        window.start(new Stage());
+    }
+
+    @FXML
+    private void openListaEmprestimos(ActionEvent event) throws Exception {
+        ListaEmprestimo window = new ListaEmprestimo();
+        window.start(new Stage());
+    }
+
     @FXML
     private void concludedButtonAction(ActionEvent event) throws SQLException {
 
@@ -100,10 +113,11 @@ public class FXMLBibliotecaController implements Initializable {
 
             dialog.setTitle("Informação dos campos");
             dialog.setHeaderText("Campos incorretos");
-            dialog.setContentText("Campos não foram preenchidos, ou campo volume contém letras");
+            dialog.setContentText("Campos não foram preenchidos.\nCampo volume contém letras");
             dialog.showAndWait();
 
-            return;
+            return;                    //write some here;
+
         }
 
         String titulo = titleBookTextField.getText();
@@ -116,10 +130,10 @@ public class FXMLBibliotecaController implements Initializable {
             return;
         }
 
-        callDAO(titulo, volume, nome_aluno, sobrenome_aluno, sala);
+        callEmprestimoDAO(titulo, volume, nome_aluno, sobrenome_aluno, sala);
     }
 
-    public void callDAO(String titulo, String volume, String nome_aluno, String sobrenome_aluno, String sala) throws SQLException {
+    private void callEmprestimoDAO(String titulo, String volume, String nome_aluno, String sobrenome_aluno, String sala) throws SQLException {
         int book_id = new LivroDAO().getLivroId(titulo, Integer.parseInt(volume));
         int student_id = new AlunoDAO().getAlunoId(nome_aluno, sobrenome_aluno);
         int sala_id = new SalaDAO().getSalaId(sala);
@@ -130,10 +144,11 @@ public class FXMLBibliotecaController implements Initializable {
 
         dialog.setTitle("Informação do empréstimo");
         dialog.setHeaderText("Empréstimo efetuado!");
-        dialog.setContentText("O empréstimo foi efetuado com sucesso. Entrega: daqui a 7 dias");
+        dialog.setContentText("O empréstimo foi efetuado com sucesso.\n Entrega: daqui a 7 dias");
         dialog.showAndWait();
     }
-    public boolean verificaCampos() {
+
+    private boolean verificaCampos() {
         boolean campos_vazios = false;
 
         List<String> fields = new ArrayList<>();
@@ -152,7 +167,7 @@ public class FXMLBibliotecaController implements Initializable {
         return campos_vazios;
     }
 
-    public boolean verificaLivroCadastrado(String titulo, String volume) throws SQLException {
+    private boolean verificaLivroCadastrado(String titulo, String volume) throws SQLException {
         boolean exists = true;
         if (!new LivroDAO().search(titulo, Integer.parseInt(volume))) {
             exists = false;
@@ -169,7 +184,7 @@ public class FXMLBibliotecaController implements Initializable {
                         window.start(new Stage());
 
                     } catch (IOException ex) {
-                        Logger.getLogger(FXMLBibliotecaController.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(FXMLCadastroEmprestimoController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             });
@@ -195,7 +210,7 @@ public class FXMLBibliotecaController implements Initializable {
                         window.start(new Stage());
 
                     } catch (IOException ex) {
-                        Logger.getLogger(FXMLBibliotecaController.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(FXMLCadastroEmprestimoController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             });
@@ -204,15 +219,23 @@ public class FXMLBibliotecaController implements Initializable {
         return exists;
     }
 
+    public void setSalasComboBox() throws SQLException {
+        List<Sala> salas_rs = new SalaDAO().getSalas();
+        List<String> salas_name = new ArrayList<>();
+
+        salas_rs.forEach(sala -> salas_name.add(sala.getSala()));
+
+        salas.addAll(salas_name);
+
+        salaComboBox.setItems(salas);
+        salaComboBox.setValue(salas_name.get(0));
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         try {
-            List<String> salas_rs = new SalaDAO().getSalas();
-            salas.addAll(salas_rs);
-
-            salaComboBox.setItems(salas);
-            salaComboBox.setValue(salas_rs.get(0));
+            setSalasComboBox();
         } catch (SQLException e) {
             e.printStackTrace();
         }

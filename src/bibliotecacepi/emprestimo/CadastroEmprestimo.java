@@ -14,11 +14,11 @@ import javafx.stage.Stage;
  *
  * @author caio
  */
-public class Biblioteca extends Application {
+public class CadastroEmprestimo extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLBiblioteca.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLCadastroEmprestimo.fxml"));
         
         Scene scene = new Scene(root);
         

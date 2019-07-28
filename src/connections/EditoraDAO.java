@@ -5,13 +5,10 @@
  */
 package connections;
 
-import java.sql.Connection;
+import java.sql.*;
+
 import bibliotecacepi.Editora;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 /**
  *
  * @author caio
@@ -37,37 +34,6 @@ public class EditoraDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally{
-            this.con.close();
-        }
-    }
-    
-    public List listaSearch(String initials) throws SQLException{
-        String sql = "SELECT editora FROM editora WHERE editora LIKE ?%";
-        List<Editora> editoras = new ArrayList<Editora>();
-        
-        try{
-            PreparedStatement stmt = this.con.prepareStatement(sql);
-            
-            stmt.setString(1, initials);
-            
-            ResultSet rs = stmt.executeQuery();
-            
-            while(rs.next()){
-                String nome = rs.getString("editora");
-                
-                Editora editora = new Editora();
-                editora.setEditora(nome);
-                
-                editoras.add(editora);
-            }
-            
-            rs.close();
-            stmt.close();
-            
-            return editoras;
-        } catch(SQLException e){
-            throw new RuntimeException(e);
-        } finally {
             this.con.close();
         }
     }
@@ -98,7 +64,10 @@ public class EditoraDAO {
             
             ResultSet rs = stmt.executeQuery();
             
-            rs.next();
+            if(!rs.next()){
+                return 0;
+            }
+
             Integer id = rs.getInt("id");
             
             return id;
@@ -107,6 +76,55 @@ public class EditoraDAO {
             throw new RuntimeException(e);
         } finally{
             this.con.close();
+        }
+    }
+
+    public Integer getId(String name_editora) throws SQLException{
+        Editora editora = new Editora();
+        editora.setEditora(name_editora);
+
+        return getId(editora);
+    }
+
+//    public void editEditora(int id, String new_value) throws SQLException {
+//        String sql = "update editora set editora=? where id=?";
+//
+//        try {
+//            PreparedStatement stmt = this.con.prepareStatement(sql);
+//
+//            stmt.setString(1, new_value);
+//            stmt.setInt(2, id);
+//
+//            stmt.executeUpdate();
+//
+//        }catch (SQLException e){
+//            System.out.println(e);
+//            new RuntimeException(e);
+//
+//        }finally {
+//            this.con.close();
+//        }
+//    }
+
+    public boolean delete(int id) throws SQLException {
+        String sql = "delete from editora where id=?";
+        boolean fk_error = false;
+
+        try {
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            try {
+                stmt.executeUpdate();
+            } catch(SQLIntegrityConstraintViolationException e){
+                fk_error = true;
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }finally {
+            this.con.close();
+            return fk_error;
         }
     }
 }

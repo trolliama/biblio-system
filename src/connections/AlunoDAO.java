@@ -3,10 +3,7 @@ package connections;
 import bibliotecacepi.Aluno;
 import connections.ConnectionFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,6 +106,48 @@ public class AlunoDAO {
         } finally {
             this.con.close();
             return data;
+        }
+    }
+
+    public boolean deleteAluno(int id) throws SQLException {
+        String sql = "delete from aluno where id=?";
+        boolean fk_error = false;
+
+        try {
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            try {
+                stmt.executeUpdate();
+            } catch(SQLIntegrityConstraintViolationException e){
+                fk_error = true;
+            }
+
+        }catch (SQLException e){
+            new RuntimeException(e);
+        }finally {
+            this.con.close();
+            return fk_error;
+        }
+    }
+
+    public void editAluno(int id, String campo, String new_value) throws SQLException {
+        String sql = "update aluno set " + campo + "=? where id=?";
+
+        try {
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+
+            stmt.setString(1, new_value);
+            stmt.setInt(2, id);
+
+            stmt.executeUpdate();
+
+        }catch (SQLException e){
+            System.out.println(e);
+            new RuntimeException(e);
+
+        }finally {
+            this.con.close();
         }
     }
 }

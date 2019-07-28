@@ -14,6 +14,7 @@ import java.sql.SQLException;
  * @author caio
  */
 public class Livro {
+    private Integer id;
     private String titulo;
     private String volume;
     private Autor autor;
@@ -25,11 +26,12 @@ public class Livro {
      * @return the titulo
      */
 
-    public Livro(String titulo, String volume, Autor autor, Editora editora) throws SQLException {
+    public Livro(int id, String titulo, String volume, Autor autor, Editora editora) throws SQLException {
         this.titulo = titulo;
         this.volume = volume;
         this.autor = autor;
         this.editora = editora;
+        this.id = id;
 
         setAutor_id();
         setEditora_id();
@@ -86,19 +88,27 @@ public class Livro {
     }
 
 
-    public Autor getAutor() {
-        return autor;
+    public String getAutor() {
+        return autor.getNome();
     }
 
     public void setAutor(Autor autor) {
         this.autor = autor;
     }
 
-    public Editora getEditora() {
-        return editora;
+    public String getEditora() {
+        return editora.getEditora();
     }
 
     public void setEditora(Editora editora) {
         this.editora = editora;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

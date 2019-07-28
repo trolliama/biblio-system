@@ -1,12 +1,12 @@
 package connections;
 
-import bibliotecacepi.Livro;
+import bibliotecacepi.Emprestimo;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class EmprestimoDAO {
     private Connection con;
@@ -40,6 +40,104 @@ public class EmprestimoDAO {
         }
     }
 
+    public int getEmprestimoId(int id_livro, int id_aluno, int id_sala) throws SQLException {
+        String sql = "select emprestimo.id from emprestimo where fk_livro_id=? and fk_aluno_id=? and fk_sala_id=?";
+
+        int id = 0;
+        try{
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+
+            stmt.setInt(1, id_livro);
+            stmt.setInt(2, id_aluno);
+            stmt.setInt(3, id_sala);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                id = rs.getInt("id");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            this.con.close();
+            return id;
+        }
+    }
+
+    public List<Emprestimo> getAll() throws SQLException {
+        List<Emprestimo> emprestimos = new ArrayList<>();
+        String sql = "select emp.id, emp.data_devolucao, emp.data_emprestimo, l.titulo," +
+                " l.volume, al.nome, al.sobrenome, sala.sala from emprestimo as emp " +
+                "inner join livros as l on emp.fk_livro_id = l.id   " +
+                "inner join aluno as al on emp.fk_aluno_id = al.id " +
+                "inner join sala on emp.fk_sala_id = sala.id";
+
+        try{
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                int id = rs.getInt("emp.id");
+                Date data_emprestimo = rs.getDate("emp.data_emprestimo");
+                String titulo_livro = rs.getString("l.titulo");
+                int volume_livro = rs.getInt("l.volume");
+                String nome_aluno = rs.getString("al.nome");
+                String sobrenome_aluno = rs.getString("al.sobrenome");
+                String sala = rs.getString("sala.sala");
+                Date data_devolucao = rs.getDate("emp.data_devolucao");
+
+                Emprestimo emprestimo = new Emprestimo(id, data_devolucao, data_emprestimo, titulo_livro,
+                        volume_livro, nome_aluno + " " + sobrenome_aluno, sala);
+
+                emprestimos.add(emprestimo);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        } finally {
+            this.con.close();
+            return emprestimos;
+        }
+    }
+
+    public void deleteEmprestimo(int id) throws SQLException {
+        String sql = "delete from emprestimo where id=?";
+
+        try {
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            stmt.executeUpdate();
+
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }finally {
+            this.con.close();
+        }
+    }
+
+    public void editEmprestimo(int id, String campo, Date new_date) throws SQLException {
+        String sql = "update livros set " + campo + "=? where id=?";
+
+        try {
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+
+            stmt.setDate(1, (java.sql.Date) new_date);
+            stmt.setInt(2, id);
+
+            stmt.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+
+        }finally {
+            this.con.close();
+        }
+    }
+
     public Date calculateDataEntrega(Date today){
 
         Calendar c = Calendar.getInstance();
@@ -48,4 +146,6 @@ public class EmprestimoDAO {
 
         return c.getTime();
     }
+
+
 }

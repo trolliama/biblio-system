@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="366.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bibliotecacepi.emprestimo.FXMLBibliotecaController">
+<VBox prefHeight="366.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bibliotecacepi.emprestimo.FXMLCadastroEmprestimoController">
    <children>
       <MenuBar>
         <menus>
@@ -30,7 +30,12 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#openCadastroSalas" text="Cadastrar Sala" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Ver lista" />
+                  <MenuItem mnemonicParsing="false" onAction="#openListaSalas" text="Ver lista" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Emprestimos">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#openListaEmprestimos" text="ver emprestimos" />
               </items>
             </Menu>
         </menus>
@@ -77,19 +82,19 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <ComboBox fx:id="salaComboBox" prefHeight="25.0" prefWidth="67.0" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+            <ComboBox fx:id="salaComboBox" prefHeight="25.0" prefWidth="91.0" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                <GridPane.margin>
-                  <Insets right="60.0" />
+                  <Insets right="40.0" />
                </GridPane.margin>
             </ComboBox>
             <Label text="Volume" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets right="75.0" />
+                  <Insets right="60.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="volumeTextField" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+            <TextField fx:id="volumeTextField" prefHeight="25.0" prefWidth="69.0" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                <GridPane.margin>
-                  <Insets left="620.0" right="60.0" />
+                  <Insets left="620.0" right="40.0" />
                </GridPane.margin>
             </TextField>
             <TextField fx:id="sobrenomeStudentTextField" GridPane.rowIndex="4">

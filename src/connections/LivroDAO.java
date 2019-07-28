@@ -7,7 +7,6 @@ package connections;
 import bibliotecacepi.Autor;
 import bibliotecacepi.Editora;
 import bibliotecacepi.Livro;
-import connections.ConnectionFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -99,7 +98,7 @@ public class LivroDAO {
     }
 
     public List<Livro> getLivros() throws SQLException {
-        String sql = "select livros.titulo, livros.volume, autor.nome, editora.editora from livros " +
+        String sql = "select livros.id, livros.titulo, livros.volume, autor.nome, editora.editora from livros " +
                 "inner join autor on livros.fk_autor_id = autor.id " +
                 "inner join editora on livros.fk_editora_id = editora.id;";
         List<Livro> data = new ArrayList<>();
@@ -110,6 +109,7 @@ public class LivroDAO {
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()){
+                int id = rs.getInt("livros.id");
                 String title = rs.getString("livros.titulo");
                 String volume = String.valueOf(rs.getInt("livros.volume"));
 
@@ -119,7 +119,7 @@ public class LivroDAO {
                 Editora editora = new Editora();
                 editora.setEditora(rs.getString("editora.editora"));
 
-                Livro livro = new Livro(title, volume, autor, editora);
+                Livro livro = new Livro(id, title, volume, autor, editora);
                 data.add(livro);
             }
         } catch (SQLException e) {
@@ -127,6 +127,66 @@ public class LivroDAO {
         } finally{
             this.con.close();
             return data;
+        }
+    }
+
+    public boolean deleteLivro(int id) throws SQLException {
+        String sql = "delete from livros where id=?";
+        boolean fk_error = false;
+
+        try {
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            try {
+                stmt.executeUpdate();
+            } catch(SQLIntegrityConstraintViolationException e){
+                fk_error = true;
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }finally {
+            this.con.close();
+            return fk_error;
+        }
+    }
+
+    public void editLivro(int id, String campo, String new_value) throws SQLException {
+        String sql = "update livros set " + campo + "=? where id=?";
+
+        try {
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+
+            stmt.setString(1, new_value);
+            stmt.setInt(2, id);
+
+            stmt.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+
+        }finally {
+            this.con.close();
+        }
+    }
+
+    public void editLivro(int id, String campo, int new_id) throws SQLException {
+        String sql = "update livros set " + campo + "=? where id=?";
+
+        try {
+            PreparedStatement stmt = this.con.prepareStatement(sql);
+
+            stmt.setInt(1, new_id);
+            stmt.setInt(2, id);
+
+            stmt.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+
+        }finally {
+            this.con.close();
         }
     }
 }
