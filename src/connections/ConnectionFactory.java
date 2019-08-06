@@ -16,9 +16,10 @@ import java.sql.SQLException;
 public class ConnectionFactory {
 
     public Connection getConnection() throws SQLException {
+
         try{
             return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/biblioteca?useTimezone=true&serverTimezone=UTC", "root", "");
+                "jdbc:mysql://localhost:3306/biblioteca?useTimezone=true&serverTimezone=UTC", "root", "cdc121022");
         }catch(SQLException e){
             throw new RuntimeException(e);
         }

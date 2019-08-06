@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="BibliotecaCEPI">
+    <archive path="F:/Documentos/Programas/Java/biblio-system/dist/BibliotecaCEPI.jar" />
+  </library>
+  <library name="lib">
+    <archive path="F:/Documentos/Programas/Java/biblio-system/dist/lib/c3p0-0.9.1-pre6.jar" />
+    <archive path="F:/Documentos/Programas/Java/biblio-system/dist/lib/jboss-common-jdbc-wrapper-src.jar" />
+    <archive path="F:/Documentos/Programas/Java/biblio-system/dist/lib/jboss-common-jdbc-wrapper.jar" />
+    <archive path="F:/Documentos/Programas/Java/biblio-system/dist/lib/slf4j-api-1.6.1.jar" />
+    <archive path="F:/Documentos/Programas/Java/biblio-system/dist/lib/protobuf-java-3.6.1.jar" />
+    <archive path="C:/Program Files (x86)/MySQL/Connector J 8.0/mysql-connector-java-8.0.15.jar" />
+  </library>
+</eclipse-userlibraries>
+

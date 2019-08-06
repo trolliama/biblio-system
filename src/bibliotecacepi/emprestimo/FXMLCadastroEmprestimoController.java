@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -231,14 +232,32 @@ public class FXMLCadastroEmprestimoController implements Initializable {
         salaComboBox.setValue(salas_name.get(0));
     }
 
+    public void checkForDelays() throws SQLException {
+       List<Date> dates = new EmprestimoDAO().getAllDevolutionDate();
+
+        for (Date date : dates) {
+            if(date.before(new Date())){
+                Alert dialog = new Alert(Alert.AlertType.WARNING);
+
+                dialog.setTitle("Livro Atrasado");
+                dialog.setHeaderText("Aluno devendo livro");
+                dialog.setContentText("Alunos com livros atrasados! ");
+
+                dialog.showAndWait();
+            }
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         try {
             setSalasComboBox();
+            checkForDelays();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }    
     
 }

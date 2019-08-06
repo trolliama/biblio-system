@@ -119,22 +119,23 @@ public class EmprestimoDAO {
         }
     }
 
-    public void editEmprestimo(int id, String campo, Date new_date) throws SQLException {
-        String sql = "update livros set " + campo + "=? where id=?";
+    public List<Date> getAllDevolutionDate() throws SQLException {
+        List<Date> datas = new ArrayList<>();
+        String sql = "select data_devolucao from emprestimo";
 
         try {
             PreparedStatement stmt = this.con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
 
-            stmt.setDate(1, (java.sql.Date) new_date);
-            stmt.setInt(2, id);
+            while(rs.next()){
+                datas.add(rs.getDate("data_devolucao"));
+            }
 
-            stmt.executeUpdate();
-
-        }catch (SQLException e){
-            throw new RuntimeException(e);
-
-        }finally {
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
             this.con.close();
+            return datas;
         }
     }
 
@@ -146,6 +147,7 @@ public class EmprestimoDAO {
 
         return c.getTime();
     }
+
 
 
 }
